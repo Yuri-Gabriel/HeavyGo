@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeavyGo Locações</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="/img/logo-fav.ico">
+</head>
+<body>
+  <header class="header">
+    <img src="img/logo-2.png" alt="HeavyGo Locações" class="logo">
+    <nav>
+      <ul class="nav-list">
+        <li><a href="#home">Início</a></li>
+        <li><a href="#veiculos">Veículos</a></li>
+        <li><a href="#reserva">Reserva</a></li>
+        <li><a href="#login">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="home" class="section">
+      <h1>Bem-vindo à <span class="highlight">HeavyGo Locações</span></h1>
+      <p>Especializada em locação de veículos para transporte de cargas e passageiros.</p>
+    </section>
+    <section id="veiculos" class="section">
+      <h2>Veículos Disponíveis</h2>
+      <div id="lista-veiculos" class="grid"></div>
+    </section>
+    <section id="reserva" class="section">
+      <h2>Reservar Veículo</h2>
+      <form id="form-reserva" class="form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="veiculo">Escolha o veículo:</label>
+        <select id="veiculo" name="veiculo"></select>
+        <label for="data">Data da reserva:</label>
+        <input type="date" id="data" name="data" required>
+        <button type="submit" class="btn">Reservar</button>
+      </form>
+    </section>
+    <section id="login" class="section">
+      <h2>Login Administrativo</h2>
+      <form id="form-login" class="form">
+        <label for="usuario">Usuário:</label>
+        <input type="text" id="usuario" name="usuario" required>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+        <button type="submit" class="btn">Entrar</button>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>&copy; 2025 HeavyGo Locações. Todos os direitos reservados.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
