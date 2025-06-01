@@ -5,6 +5,7 @@ const veiculos = [
   { id: 3, nome: 'Ônibus Escolar', tipo: 'Passageiros', disponivel: false },
   { id: 4, nome: 'Caminhão Plataforma', tipo: 'Carga', disponivel: true },
 ];
+
 function carregarVeiculos() {
   const lista = document.getElementById('lista-veiculos');
   const select = document.getElementById('veiculo');
@@ -27,6 +28,7 @@ function carregarVeiculos() {
     }
   });
 }
+
 const formReserva = document.getElementById('form-reserva');
 formReserva.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -36,6 +38,7 @@ formReserva.addEventListener('submit', function(event) {
   alert(`Reserva confirmada para ${nome}, Veículo ID: ${veiculoId}, Data: ${data}`);
   formReserva.reset();
 });
+
 const formLogin = document.getElementById('form-login');
 formLogin.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -47,4 +50,30 @@ formLogin.addEventListener('submit', function(event) {
     alert('Usuário ou senha incorretos.');
   }
 });
+
 carregarVeiculos();
+
+const login_btn = document.getElementById("login_btn");
+const reserva_btn_btn = document.getElementById("reserva_btn");
+
+const close_login = document.getElementById("close_login");
+const close_reserva = document.getElementById("close_reserva");
+
+const form_login = document.getElementById("login_container");
+const form_reserva = document.getElementById("reserva_container");
+
+login_btn.addEventListener("click", () => {
+  form_login.style.display = "flex";
+});
+
+close_login.addEventListener("click", () => {
+  form_login.style.display = "none";
+});
+
+reserva_btn.addEventListener("click", () => {
+  form_reserva.style.display = "flex";
+});
+
+close_reserva.addEventListener("click", () => {
+  form_reserva.style.display = "none";
+});
