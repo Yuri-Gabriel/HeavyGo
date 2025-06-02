@@ -6,11 +6,11 @@
   <title>HeavyGo Locações</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/x-icon" href="/img/logo-fav.ico">
+  <link rel="icon" type="image/x-icon" href="img/logo-fav.ico">
 </head>
 <body>
   <header class="header">
-    <img src="img/logo-2.png" alt="HeavyGo Locações" class="logo">
+    <img src="img/logo-white.png" alt="HeavyGo Locações" class="logo">
     <nav>
       <ul class="nav-list">
         <li><a href="#home">Início</a></li>
@@ -25,6 +25,13 @@
       <h1>Bem-vindo à <span class="highlight">HeavyGo Locações</span></h1>
       <p>Especializada em locação de veículos para transporte de cargas e passageiros.</p>
     </section>
+    <section id="reservados" class="section">
+      <h2>Veículos Reservados</h2>
+      <table id="tabela-reservas" class="reserva-tabela">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </section>
     <section id="veiculos" class="section">
       <h2>Veículos Disponíveis</h2>
       <div id="lista-veiculos" class="grid"></div>
@@ -34,13 +41,13 @@
         <div class="close_container">
           <img src="./img/close.svg" alt="close" id="close_reserva">
         </div>
-        <h2>Reservar Veículo</h2>
+        <h2>Reservar Veículo <span class="highlight">HeavyGo</span></h2>
         <form id="form-reserva" class="form">
-          <label for="nome">Nome:</label>
+          <label for="nome">Nome <span class="require-field">*</span></label>
           <input type="text" id="nome" name="nome" required>
-          <label for="veiculo">Escolha o veículo:</label>
+          <label for="veiculo">Escolha o veículo <span class="require-field">*</span></label>
           <select id="veiculo" name="veiculo"></select>
-          <label for="data">Data da reserva:</label>
+          <label for="data">Data da reserva <span class="require-field">*</span></label>
           <input type="date" id="data" name="data" required>
           <button type="submit" class="btn">Reservar</button>
         </form>
