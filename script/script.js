@@ -1,13 +1,18 @@
 
 
 
-
-const veiculos = [
+const veiculosStore = [
   { id: 1, nome: 'Caminhão Baú', tipo: 'Carga', disponivel: true },
   { id: 2, nome: 'Van Executiva', tipo: 'Passageiros', disponivel: true },
   { id: 3, nome: 'Ônibus Escolar', tipo: 'Passageiros', disponivel: true },
   { id: 4, nome: 'Caminhão Plataforma', tipo: 'Carga', disponivel: true },
 ];
+
+localStorage.getItem('veiculos') ? '' : localStorage.setItem('veiculos', JSON.stringify(veiculosStore));
+
+const adminLogado = false;
+
+let veiculos = JSON.parse(localStorage.getItem('veiculos'));
 
 const login_btn = document.getElementById("login_btn");
 const reserva_btn_btn = document.getElementById("reserva_btn");
@@ -19,7 +24,17 @@ const form_login = document.getElementById("login_container");
 const form_reserva = document.getElementById("reserva_container");
 
 login_btn.addEventListener("click", () => {
-  form_login.style.display = "flex";
+  switch (login_btn.textContent){
+    case "Deslogar": {
+      document.getElementById('reservados').style.display = "none";
+      login_btn.textContent = 'Login'
+      break;
+    }
+    default: {
+      form_login.style.display = "flex"
+      break;
+    }
+  }
 });
 
 close_login.addEventListener("click", () => {
@@ -56,7 +71,6 @@ function carregarVeiculos() {
       <p>Status: <strong style="color: ${veiculo.disponivel ? 'green' : 'red'}">${veiculo.disponivel ? 'Disponível' : 'Indisponível'}</strong></p>
     `;
     lista.appendChild(item);
-    
     if (veiculo.disponivel) {
       const option = document.createElement('option');
       option.value = veiculo.id;
@@ -68,8 +82,6 @@ function carregarVeiculos() {
 
 carregarVeiculos();
 
-const reservas = [];
-
 const tabelaReservas = document.getElementById("tabela-reservas"); // <table>
 const corpoTabela = tabelaReservas.querySelector("tbody");
 const cabecalhoTabela = tabelaReservas.querySelector("thead");
@@ -79,6 +91,8 @@ atualizarTabelaReservas();
 function atualizarTabelaReservas() {
   corpoTabela.innerHTML = "";
   cabecalhoTabela.innerHTML = "";
+
+  const reservas = localStorage.getItem('reservas') ? JSON.parse(localStorage.getItem('reservas')) : [];;
 
   if (reservas.length === 0) {
     const linha = document.createElement("tr");
@@ -94,6 +108,7 @@ function atualizarTabelaReservas() {
         <th>Nome</th>
         <th>Veículo</th>
         <th>Data</th>
+        <th>Ações</th>
       </tr>
     `;
     reservas.forEach(r => {
@@ -102,6 +117,7 @@ function atualizarTabelaReservas() {
         <td>${r.nome}</td>
         <td>${r.veiculo}</td>
         <td>${formatarData(r.data)}</td>
+        <td><button class='buttonRemover' onclick='removerReserva(${r.id})'>Remover</button></td>
       `;
       corpoTabela.appendChild(linha);
     });
@@ -119,13 +135,17 @@ formReserva.addEventListener('submit', function(event) {
     alert("Selecione um veículo.");
     return;
   }
+  const reservas = localStorage.getItem('reservas') ? JSON.parse(localStorage.getItem('reservas')) : [];
   reservas.push({
     nome,
     veiculo: veiculoSelecionado.nome,
+    id: veiculoSelecionado.id,
     data
   });
+  localStorage.setItem('reservas', JSON.stringify(reservas))
   alert(`Reserva confirmada para ${nome}, Veículo: ${veiculoSelecionado.nome}, Data: ${data}`);
   veiculoSelecionado.disponivel = false;
+  localStorage.setItem('veiculos', JSON.stringify(veiculos));
   carregarVeiculos();
   atualizarTabelaReservas();
   formReserva.reset();
@@ -138,6 +158,21 @@ function formatarData(dataString) {
   return new Date(dataString).toLocaleDateString('pt-BR', options);
 }
 
+function removerReserva(id) {
+  let reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+  let reservaIndex = reservas.findIndex(reserva => reserva.id === id);
+  if (reservaIndex > -1) {
+    reservas.splice(reservaIndex, 1);
+  }
+  const veiculosAtualizado = veiculos.map(veiculo => veiculo.id === id ? { ...veiculo, disponivel: true } : veiculo);
+  veiculos = veiculosAtualizado;
+  localStorage.setItem('veiculos', JSON.stringify(veiculosAtualizado));
+  localStorage.setItem('reservas', JSON.stringify(reservas));
+
+  atualizarTabelaReservas();
+  carregarVeiculos();
+}
+
 const formLogin = document.getElementById('form-login');
 formLogin.addEventListener('submit', function(event) {
   event.preventDefault();
@@ -145,10 +180,14 @@ formLogin.addEventListener('submit', function(event) {
   const senha = document.getElementById('senha').value;
   if (usuario === 'admin' && senha === '1234') {
     alert('Login bem-sucedido!');
+    form_login.style.display = "none";
+    document.getElementById('reservados').style.display = "block";
+    login_btn.innerText = "Deslogar"
   } else {
     alert('Usuário ou senha incorretos.');
   }
 });
+
 
 function setMinDate() {
   const date = new Date();
@@ -161,33 +200,24 @@ function setMinDate() {
   input.setAttribute("min", today);
 }
 
-// ===== JavaScript =====
+setMinDate();
 
-// 1) Referências aos elementos do DOM
 const imagesContainer = document.getElementById('images_container');
 const prevBtn = document.getElementById('prev_btn');
 const nextBtn = document.getElementById('next_btn');
 const ballsContainer = document.getElementById('balls_carrossel');
 
-// 2) Coleção de elementos <img> dentro de #images_container
 const images = imagesContainer.getElementsByClassName('carrossel_image');
-
-// 3) Índice corrente (começa em 0)
 let currentIndex = 0;
 
-/**
- * Cria as bolinhas (span.ball_carrossel) dinamicamente,
- * adiciona listener de clique em cada uma para navegar direto ao índice.
- */
 function initBalls() {
   ballsContainer.innerHTML = ''; // limpa se já existir algo
 
   for (let i = 0; i < images.length; i++) {
     const ball = document.createElement('span');
     ball.classList.add('ball_carrossel');
-    if (i === 0) ball.classList.add('selected'); // primeira bolinha já selecionada
+    if (i === 0) ball.classList.add('selected');
 
-    // Ao clicar em uma bolinha, muda currentIndex e atualiza carrossel
     ball.addEventListener('click', () => {
       currentIndex = i;
       updateCarousel();
@@ -197,35 +227,25 @@ function initBalls() {
   }
 }
 
-/**
- * Atualiza transformação do #images_container para mostrar a imagem em currentIndex
- * e também ajusta a classe .selected na bolinha correta.
- */
 function updateCarousel() {
-  // 1) Cálculo genérico do deslocamento em porcentagem:
-  //    Cada imagem ocupa (100% / número de imagens) do container total.
   const shiftPercent = (100 / images.length) * currentIndex;
   imagesContainer.style.transform = `translateX(-${shiftPercent}%)`;
 
-  // 2) Atualiza bolinhas: remove .selected de todas e adiciona à corrente
   const balls = ballsContainer.getElementsByClassName('ball_carrossel');
   for (let j = 0; j < balls.length; j++) {
     balls[j].classList.toggle('selected', j === currentIndex);
   }
 }
 
-// 4) Botão "Anterior"
 prevBtn.addEventListener('click', () => {
   currentIndex = (currentIndex - 1 + images.length) % images.length;
   updateCarousel();
 });
 
-// 5) Botão "Próxima"
 nextBtn.addEventListener('click', () => {
   currentIndex = (currentIndex + 1) % images.length;
   updateCarousel();
 });
 
-// 6) Inicializa as bolinhas e já define o carrossel na posição zero
 initBalls();
 updateCarousel();

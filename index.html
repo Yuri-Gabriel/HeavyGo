@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HeavyGo Locações</title>
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/x-icon" href="img/logo-fav.ico">
 </head>
@@ -49,7 +49,7 @@
       </div>
       <div id="balls_carrossel"></div>
     </section>
-    <section id="reservados" class="section">
+    <section id="reservados" style="display: none;" class="section">
       <h2>Veículos Reservados</h2>
       <table id="tabela-reservas" class="reserva-tabela">
         <thead></thead>
@@ -72,7 +72,7 @@
           <label for="veiculo">Escolha o veículo <span class="require-field">*</span></label>
           <select id="veiculo" name="veiculo"></select>
           <label for="data">Data da reserva <span class="require-field">*</span></label>
-          <input type="date" id="data" name="data" min="" required>
+          <input type="date" id="data" name="data" required>
           <button type="submit" class="btn">Reservar</button>
         </form>
       </section>
@@ -100,3 +100,4 @@
   <script src="script/script.js"></script>
 </body>
 </html>
+
