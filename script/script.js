@@ -202,18 +202,23 @@ function setMinDate() {
 
 setMinDate();
 
+const images_carrossel = [
+  "img/carrossel1.png",
+  "img/carrossel2.png"
+]
+
 const imagesContainer = document.getElementById('images_container');
 const prevBtn = document.getElementById('prev_btn');
 const nextBtn = document.getElementById('next_btn');
 const ballsContainer = document.getElementById('balls_carrossel');
 
-const images = imagesContainer.getElementsByClassName('carrossel_image');
+const images = document.getElementById('carrossel_image');
 let currentIndex = 0;
 
 function initBalls() {
   ballsContainer.innerHTML = ''; // limpa se já existir algo
 
-  for (let i = 0; i < images.length; i++) {
+  for (let i = 0; i < images_carrossel.length; i++) {
     const ball = document.createElement('span');
     ball.classList.add('ball_carrossel');
     if (i === 0) ball.classList.add('selected');
@@ -228,9 +233,7 @@ function initBalls() {
 }
 
 function updateCarousel() {
-  const shiftPercent = (100 / images.length) * currentIndex;
-  imagesContainer.style.transform = `translateX(-${shiftPercent}%)`;
-
+  images.setAttribute("src", images_carrossel[currentIndex]);
   const balls = ballsContainer.getElementsByClassName('ball_carrossel');
   for (let j = 0; j < balls.length; j++) {
     balls[j].classList.toggle('selected', j === currentIndex);
@@ -238,12 +241,12 @@ function updateCarousel() {
 }
 
 prevBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  currentIndex = currentIndex < images_carrossel.length - 1 ? currentIndex + 1 : 0;
   updateCarousel();
 });
 
 nextBtn.addEventListener('click', () => {
-  currentIndex = (currentIndex + 1) % images.length;
+  currentIndex = currentIndex > 0 ? currentIndex - 1 : images_carrossel.length - 1;
   updateCarousel();
 });
 
