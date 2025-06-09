@@ -1,6 +1,5 @@
 
 
-
 const veiculosStore = [
   { id: 1, nome: 'Caminhão Baú', tipo: 'Carga', disponivel: true },
   { id: 2, nome: 'Van Executiva', tipo: 'Passageiros', disponivel: true },
@@ -203,9 +202,10 @@ function setMinDate() {
 setMinDate();
 
 const images_carrossel = [
-  "img/carrossel1.png",
-  "img/carrossel2.png"
-]
+  {src: "img/caminhao-bau.jpg", alt: "caminhao-bau"},
+  {src: "img/caminhao-escolar.jpeg", alt: "caminhao-escolar"},
+  {src: "img/caminhao-plataforma.jpg", alt: "caminhao-plataforma"}
+];
 
 const imagesContainer = document.getElementById('images_container');
 const prevBtn = document.getElementById('prev_btn');
@@ -216,24 +216,22 @@ const images = document.getElementById('carrossel_image');
 let currentIndex = 0;
 
 function initBalls() {
-  ballsContainer.innerHTML = ''; // limpa se já existir algo
-
+  ballsContainer.innerHTML = '';
   for (let i = 0; i < images_carrossel.length; i++) {
     const ball = document.createElement('span');
     ball.classList.add('ball_carrossel');
     if (i === 0) ball.classList.add('selected');
-
     ball.addEventListener('click', () => {
       currentIndex = i;
       updateCarousel();
     });
-
     ballsContainer.appendChild(ball);
   }
 }
 
 function updateCarousel() {
-  images.setAttribute("src", images_carrossel[currentIndex]);
+  images.setAttribute("src", images_carrossel[currentIndex].src);
+  images.setAttribute("alt", images_carrossel[currentIndex].alt);
   const balls = ballsContainer.getElementsByClassName('ball_carrossel');
   for (let j = 0; j < balls.length; j++) {
     balls[j].classList.toggle('selected', j === currentIndex);
@@ -241,12 +239,12 @@ function updateCarousel() {
 }
 
 prevBtn.addEventListener('click', () => {
-  currentIndex = currentIndex < images_carrossel.length - 1 ? currentIndex + 1 : 0;
+  currentIndex = currentIndex > 0 ? currentIndex - 1 : images_carrossel.length - 1;
   updateCarousel();
 });
 
 nextBtn.addEventListener('click', () => {
-  currentIndex = currentIndex > 0 ? currentIndex - 1 : images_carrossel.length - 1;
+  currentIndex = currentIndex < images_carrossel.length - 1 ? currentIndex + 1 : 0;
   updateCarousel();
 });
 
