@@ -131,6 +131,15 @@ footer.footer {
   }
 }
 
+@media (max-width: 580px) {
+  #reservados {
+    overflow-x: scroll;
+  }
+  #tabela-reservas {
+    width: 540px;
+  }
+}
+
 @media (max-width: 600px) {
   .nav-list {
     width: 50%;
@@ -163,6 +172,7 @@ footer.footer {
   display: none;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 .form_container .section {
@@ -175,6 +185,7 @@ footer.footer {
 
 .reserva-tabela {
   width: 100%;
+  overflow-x: scroll;
   border-collapse: collapse;
   margin-top: 1rem;
 }
@@ -227,7 +238,7 @@ footer.footer {
 img#carrossel_image {
   width: 100%;
   height: 100%;
-  
+  object-fit: contain;
 }
 
 .carrossel_navigation span {
